@@ -41,8 +41,8 @@ class Consultant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     #Metadata
-    class Meta:
-       ordering = ['last_name', 'first_name']
+    #class Meta:
+       #ordering = ['last_name', 'first_name']
     
     #Methods
     def __str__(self):
