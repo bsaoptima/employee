@@ -15,6 +15,9 @@ class User(models.Model):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    def __str__(self):
+        '''String for Representing the Model Object.'''
+        return self.name
 
 class SignUpToken(models.Model) :
     # for later 
@@ -47,7 +50,7 @@ class Consultant(models.Model):
     #Methods
     def __str__(self):
         '''String for Representing the Model Object.'''
-        return f'{self.last_name}, {self.first_name}'
+        return self.user.name
     
 
 class Department(models.Model):
@@ -105,9 +108,9 @@ class Project(models.Model):
 class Client(models.Model):
     
     #Fields
-    client_primary_contact = models.CharField(max_length=100)
+    client_company = models.CharField(max_length=100)
     client_number_of_projects = models.IntegerField() #how many projects have we completed with this client
     user = models.ForeignKey(User, on_delete=models.CASCADE) # 
 
     def __str__(self):
-        return self.client_name
+        return self.client_company
