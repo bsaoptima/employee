@@ -7,7 +7,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-''' Retrieving users '''
+''' 
+
+Retrieving list or individual details of each class 
+-Do we have to repeat this ?
+
+'''
 
 @api_view(['GET', 'POST'])
 def user_list(request, format=None):
@@ -47,3 +52,5 @@ def user_detail(request, id, format=None):
     elif request.method == "DELETE":
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+'''Try and make a generalised function to get information with more flexibility'''
