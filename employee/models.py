@@ -12,6 +12,7 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
     isemailvalid = models.BooleanField(default = False) # for later to verify email
+    is_consultant = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -40,7 +41,7 @@ class Consultant(models.Model):
     
     #Fields
     department_name = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
-    team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, default="Unassigned")
+    team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     #Metadata
@@ -105,11 +106,23 @@ class Project(models.Model):
         return self.project_name
 
 
+class Task(models.Model):
+    '''No Multi-Table Inheritance as it creates OnetoOne'''
+    #Fields
+    task_name = models.CharField(max_length=100)
+    task_project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True)
+
+    parent_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='parenttask')
+
+    def __str__(self):
+        return self.task_name
+    
+
 class Client(models.Model):
     
     #Fields
     client_company = models.CharField(max_length=100)
-    client_number_of_projects = models.IntegerField() #how many projects have we completed with this client
+    client_number_of_projects = models.IntegerField(default=0) #how many projects have we completed with this client
     user = models.ForeignKey(User, on_delete=models.CASCADE) # 
 
     def __str__(self):
